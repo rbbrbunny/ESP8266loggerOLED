@@ -8,7 +8,7 @@
 #include <U8g2lib.h>
 
 // define delay between readings
-#define setDelay 10000
+#define setDelay 30000
 
 // define display pins
 #define OLED_SDA  2
@@ -19,10 +19,10 @@
 U8G2_SSD1306_128X32_UNIVISION_F_SW_I2C u8g2(U8G2_R0, OLED_SCL, OLED_SDA , OLED_RST);
 
 // set credentials
-const char *ssid = "WIFI_SSID_GOES_HERE";
-const char *password = "WIFI_PASSWORD_HERE";
-unsigned long myChannelNumber = THINGSPEAK_CHANNEL_GOES_HERE;
-const char *myWriteAPIKey = "THINGSPEAK_API_KEY_HERE";
+const char *ssid = "gouranga";
+const char *password = "godofgta";
+unsigned long myChannelNumber = 741726;
+const char *myWriteAPIKey = "RL4LSTB99SBKZZOK";
 
 // set the delimiters for our quote
 const char *indexOneChar = "oneliner\">"; // read after this
@@ -40,7 +40,7 @@ const int displaySaveLength = 4; // how much characters to save for the reading
 const int displayWidth = 128;
 
 // set the site to connect to and extract the quote to be displayed on the display
-  server.send(200, "text/plain", String(whereToConnect) + "\n\nis the purveyor of displayed quotes\n\n\ntry /time");
+const char *whereToConnect = "http://www.onelinerz.net/random-one-liners/1/";
 
 // setup server, currently for millis() :)
 ESP8266WebServer server(80);
@@ -54,7 +54,7 @@ long timeLast = 0;
 // handling of http request for /
 void handleRoot(){
   
-  server.send(200, "text/plain", whereToConnect);
+  server.send(200, "text/plain", String(whereToConnect) + "\n\nis the purveyor of displayed quotes");
 }
 
 // handling of wrong directory ie: /somethingNotThere
@@ -168,9 +168,6 @@ void loop(void){
     // from specified site and extracted with care
     // also pass the reading to be later displayed
     getDataFromInternet(reading);
-    
-    // just for sanity check send it through serial
-    Serial.print(String(reading) + " ");
   }
   
   // don't forget we have a http server running
@@ -220,6 +217,10 @@ void getDataFromInternet(int pipeReading){
       tempQuote.remove(toRemove, howMuchToRemove);
     }
 
+        
+    // just for sanity check send it through serial
+    Serial.print(String(reading) + " ");
+    
     // just because, why not?
     Serial.println(tempQuote);
 
