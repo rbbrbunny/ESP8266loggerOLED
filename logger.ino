@@ -219,7 +219,7 @@ void getDataFromInternet(int pipeReading){
 
         
     // just for sanity check send it through serial
-    Serial.print(String(reading) + " ");
+    Serial.print(String(pipeReading) + " ");
     
     // just because, why not?
     Serial.println(tempQuote);
